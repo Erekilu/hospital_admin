@@ -14,7 +14,5 @@ public interface WardService
 {
 	List<Ward> queryWardsBeds(int wardBelong);
 
-	Ward queryWardById(int wardId);
-
-	int changeStatus(int wardId, String wardStatus);
+	void maintainWard(int wardId);
 }

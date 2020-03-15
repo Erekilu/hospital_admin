@@ -12,6 +12,4 @@ public interface PatientService
 	void addPatient(Patient patient);
 
 	PatientExecution queryPatientByInp(String queryString, int pageIndex, int pageSize, Long departmentId);
-
-	int changeBed(Patient patient);
 }

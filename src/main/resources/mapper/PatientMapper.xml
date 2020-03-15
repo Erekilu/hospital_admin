@@ -22,6 +22,7 @@
 			and (patient_id = #{queryString}
 			or patient_name like '%${queryString}%'
 			or patient_phone = #{queryString})
+		order by patient_create_time desc
 		limit #{rowIndex}, #{pageSize}
 	</select>
 

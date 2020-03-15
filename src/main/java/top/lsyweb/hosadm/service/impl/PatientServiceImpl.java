@@ -42,11 +42,4 @@ public class PatientServiceImpl implements PatientService
 		patientExecution.setPatients(patientMapper.queryPatientByInp(queryString, rowIndex, pageSize, departmentId));
 		return patientExecution;
 	}
-
-	@Override
-	public int changeBed(Patient patient)
-	{
-		patient.setPatientLastEditTime(new Timestamp(new Date().getTime()));
-		return patientMapper.changeBed(patient);
-	}
 }

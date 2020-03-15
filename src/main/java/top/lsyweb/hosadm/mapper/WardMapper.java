@@ -17,5 +17,5 @@ public interface WardMapper
 
 	Ward queryWardById(int wardId);
 
-	int changeStatus(@Param("wardStatus") String wardStatus, @Param("wardId") int wardId);
+	int changeStatus(@Param("wardId") int wardId, @Param("wardStatus") String wardStatus);
 }

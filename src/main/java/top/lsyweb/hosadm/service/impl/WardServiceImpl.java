@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.lsyweb.hosadm.domain.Bed;
 import top.lsyweb.hosadm.domain.Ward;
+import top.lsyweb.hosadm.mapper.BedMapper;
 import top.lsyweb.hosadm.mapper.WardMapper;
 import top.lsyweb.hosadm.service.WardService;
 
@@ -20,6 +21,8 @@ public class WardServiceImpl implements WardService
 {
 	@Autowired
 	private WardMapper wardMapper;
+	@Autowired
+	private BedMapper bedMapper;
 
 	@Override
 	public List<Ward> queryWardsBeds(int wardBelong)
@@ -28,15 +31,32 @@ public class WardServiceImpl implements WardService
 		return wards;
 	}
 
+	/**
+	 * 维护目标病房的拥挤状态
+	 * @param wardId 目标病房主键
+	 */
 	@Override
-	public Ward queryWardById(int wardId)
+	public void maintainWard(int wardId)
 	{
-		return wardMapper.queryWardById(wardId);
-	}
-
-	@Override
-	public int changeStatus(int wardId, String wardStatus)
-	{
-		return wardMapper.changeStatus(wardStatus, wardId);
+		List<Bed> beds = bedMapper.queryAllBed(wardId);
+		int count = 0, all = 0;
+		for (Bed bed : beds)
+		{
+			all++;
+			if ("占用".equals(bed.getBedStatus()))
+				count++;
+		}
+		if ((double)count / all >= 0.9)
+		{
+			wardMapper.changeStatus(wardId, "爆满");
+		}
+		else if ((double)count / all >= 0.6)
+		{
+			wardMapper.changeStatus(wardId, "拥挤");
+		}
+		else
+		{
+			wardMapper.changeStatus(wardId, "宽松");
+		}
 	}
 }

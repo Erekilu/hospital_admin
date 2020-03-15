@@ -9,8 +9,6 @@ import top.lsyweb.hosadm.domain.Admin;
  */
 public interface AdminService
 {
-	public Admin findAdminByUsername(String username);
-
 	public Admin findAdminById(int id);
 
 	public Admin changeAdminById(Admin admin);
