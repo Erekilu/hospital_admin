@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>设置我的资料</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+          <div class="layui-card-header">设置我的资料</div>
+          <div class="layui-card-body" pad15>
+            
+            <div class="layui-form" lay-filter="">
+              <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-inline">
+                  <input id="admin_name" maxlength="15" type="text" name="admin_name" placeholder="杨永信" readonly class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">姓名不可修改。</div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                  <input id="admin_sex1" type="radio" name="admin_sex" value="男" title="男">
+                  <input id="admin_sex2" type="radio" name="admin_sex" value="女" title="女">
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                  <button type="button" class="layui-btn layui-btn-primary" id="admin_upload">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                  </button>
+                </div>
+             </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">手机</label>
+                <div class="layui-input-inline">
+                  <input id="admin_phone" type="text" name="admin_phone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
+                </div>
+              </div>
+              <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">简介</label>
+                <div class="layui-input-block">
+                  <textarea id="admin_describe" maxlength="100" name="admin_describe" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <div class="layui-input-block">
+                  <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../layuiadmin/layui/layui.js"></script>  
+  <script>
+  layui.config({
+    base: '../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'set', 'form', 'layer'], function() {
+    let $ = layui.$,
+    form = layui.form,
+    layer = layui.layer,
+    upload = layui.upload;
+
+    // 绑定文件上传事件
+    // 图片上传操作
+    upload.render({
+      elem: '#admin_upload', //绑定元素
+      url: '/adminUpload/', //上传接口
+      method: 'post', // post请求
+      size: 5120, // 文件最大5MB
+      exts: 'jpg|png|jpeg', // 接收图片的后缀限制
+      before: function() {
+        layer.load(); //上传loading
+      },
+      done: function(res) {
+        // 关闭loading标志
+        layer.closeAll('loading');
+        if (res.code === 0) {
+          // 上传成功
+          layer.msg('上传成功', {icon: 1, time: 1000});
+        } else {
+          // 上传失败
+          layer.msg('上传失败', {icon: 2, time: 1000, anim: 6});
+        }
+      },
+      error: function() {
+        // 关闭loading标志
+        layer.closeAll('loading');
+        layer.msg('上传图片请求失败', {icon: 2, time: 1000, anim: 6});
+      }
+    });
+
+    // 绑定提交事件
+    form.on('submit(setmyinfo)', function(data){
+      // 封装成一个admin对象
+      let admin = {
+        adminName: data.field.admin_name,
+        adminPhone: data.field.admin_phone,
+        adminDescribe: data.field.admin_describe,
+        adminSex: data.field.admin_sex
+      };
+
+      // 请求修改信息
+      $.ajax({
+        url: '/adminChange',
+        type: 'POST',
+        data: admin,
+        success: function(result) {
+          if (result.code === 0) {
+            layer.msg('修改信息成功，刷新页面后更新信息', {
+              icon: 1
+              ,time: 1000
+            });
+          } else {
+            layer.msg('修改信息失败', {
+              icon: 5
+              ,time: 1000
+            });
+          }
+
+        }
+      });
+      return false; // 阻止表单跳转
+    });
+
+    // 页面加载完毕，载入登入者信息
+    $(function() {
+      $.ajax({
+        url: "/adminInfo",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+          let adm = data.admin;
+          // 绑定姓名
+          $('#admin_name').attr('value', adm.adminName);
+          // 绑定性别
+          if (adm.adminSex === '男')
+            $('#admin_sex1').attr('checked', 'checked');
+          else
+            $('#admin_sex2').attr('checked', 'checked');
+          // 绑定手机号
+          $('#admin_phone').attr('value', adm.adminPhone);
+          // 绑定描述
+          $('#admin_describe').text(adm.adminDescribe);
+          // 刷新表单
+          form.render();
+        }
+      });
+    })
+  });
+  </script>
+</body>
+</html>

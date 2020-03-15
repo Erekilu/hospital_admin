@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="top.lsyweb.hosadm.mapper.BedMapper">
+	<select id="queryAllBed" resultType="Bed">
+		select * from bed where bed_belong = #{wardId}
+	</select>
+
+	<select id="queryBedById" resultType="Bed">
+		select * from bed where bed_id = #{bedId}
+	</select>
+
+	<update id="changeBedStatus">
+		update bed set bed_status = #{bedStatus} where bed_id = #{bedId}
+	</update>
+</mapper>
