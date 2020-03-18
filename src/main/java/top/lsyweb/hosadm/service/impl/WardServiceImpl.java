@@ -24,16 +24,20 @@ public class WardServiceImpl implements WardService
 	@Autowired
 	private BedMapper bedMapper;
 
+	/**
+	 * 查询目标科室下的所有病房
+	 * @param wardBelong 科室id
+	 * @return 病房集合
+	 */
 	@Override
 	public List<Ward> queryWardsBeds(int wardBelong)
 	{
-		List<Ward> wards = wardMapper.queryWards(wardBelong);
-		return wards;
+		return wardMapper.queryWards(wardBelong);
 	}
 
 	/**
 	 * 维护目标病房的拥挤状态
-	 * @param wardId 目标病房主键
+	 * @param wardId 病房id
 	 */
 	@Override
 	public void maintainWard(int wardId)
@@ -46,6 +50,11 @@ public class WardServiceImpl implements WardService
 			if ("占用".equals(bed.getBedStatus()))
 				count++;
 		}
+		if (all == 0)
+		{
+			wardMapper.changeStatus(wardId, "宽松");
+		}
+
 		if ((double)count / all >= 0.9)
 		{
 			wardMapper.changeStatus(wardId, "爆满");

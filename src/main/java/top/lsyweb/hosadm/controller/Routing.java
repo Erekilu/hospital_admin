@@ -10,18 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class Routing
 {
-	// 测试路由，非必须
-	@GetMapping(value = {"/", "/index"})
-	public String welcome()
-	{
-		return "/views/assign/assignbed.html";
-	}
-
-	// 登录页面
+	/**
+	 * 登录界面路由
+	 * @return
+	 */
 	@GetMapping("/login")
 	public String login()
 	{
 		return "/views/login.html";
 	}
-
 }

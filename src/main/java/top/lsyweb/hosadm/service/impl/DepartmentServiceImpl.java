@@ -18,6 +18,10 @@ public class DepartmentServiceImpl implements DepartmentService
 	@Autowired
 	private DepartmentMapper departmentMapper;
 
+	/**
+	 * 查询所有的部门信息
+	 * @return 部门对象集合
+	 */
 	@Override
 	public List<Department> queryDepartments()
 	{

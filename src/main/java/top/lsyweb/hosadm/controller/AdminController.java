@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 管理者控制逻辑
  * @Auther: Erekilu
  * @Date: 2020-03-07
  */
@@ -29,9 +30,9 @@ public class AdminController
 
 	/**
 	 * 登录逻辑验证
-	 * @param username
-	 * @param password
-	 * @return
+	 * @param username 前台输入的用户名
+	 * @param password 前台输入的密码
+	 * @return 返回验证结果和验证信息（如密码错误）
 	 */
 	@PostMapping("/loginSubmit")
 	public Map<String, Object> loginSubmit(String username, String password)
@@ -78,8 +79,8 @@ public class AdminController
 	}
 
 	/**
-	 * 获取用户信息
-	 * @return
+	 * 获取登录用户信息
+	 * @return 登录者的所有信息
 	 */
 	@GetMapping("/adminInfo")
 	public Map<String, Object> adminInfo()
@@ -105,8 +106,8 @@ public class AdminController
 	}
 
 	/**
-	 * 更改用户信息
-	 * @return
+	 * 更改当前登录用户信息
+	 * @return 处理状态码
 	 */
 	@PostMapping("/adminChange")
 	public Map<String, Object> adminChange(Admin admin)
@@ -136,9 +137,9 @@ public class AdminController
 	}
 
 	/**
-	 * 接收用户上传的图片
-	 * @param file
-	 * @return
+	 * 异步接收用户上传的图片
+	 * @param file 图片文件
+	 * @return 图片唯一标识
 	 */
 	@PostMapping("/adminUpload")
 	public Map<String, Object> adminUpload(MultipartFile file)
@@ -172,8 +173,8 @@ public class AdminController
 	}
 
 	/**
-	 * admin修改密码
-	 * @return
+	 * 修改当前登录者的密码
+	 * @return 处理结果和处理信息（如：密码错误，请重新输入）
 	 */
 	@PostMapping("/adminChangePassword")
 	public Map<String, Object> adminChangePassword(String oldPassword, String password)

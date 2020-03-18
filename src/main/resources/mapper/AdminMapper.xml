@@ -10,6 +10,7 @@
 		select * from admin where admin_id = #{id}
 	</select>
 
+	<!--条件修改非空属性-->
 	<update id="changeAdminById" parameterType="Admin">
 		update admin
 		<set>
@@ -34,9 +35,4 @@
 		</set>
 		where admin_id = #{adminId}
 	</update>
-	<!--<update id="changeAdminById" parameterType="Admin">-->
-		<!--update admin set admin_sex = #{adminSex}, admin_phone = #{adminPhone},-->
-		                 <!--admin_describe = #{adminDescribe}, admin_last_edit_time = #{adminLastEditTime}-->
-		<!--where admin_id = #{adminId}-->
-	<!--</update>-->
 </mapper>

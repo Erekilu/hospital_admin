@@ -12,5 +12,9 @@ import java.util.List;
 @Component
 public interface DepartmentMapper
 {
+	/**
+	 * 查询所有的部门
+	 * @return 部门集合
+	 */
 	List<Department> queryAllDepartments();
 }

@@ -82,8 +82,8 @@ public class BedServiceImpl implements BedService
 	}
 
 	/**
-	 * 解除病床占用
-	 * @param patient
+	 * 解除目标病人的病床占用
+	 * @param patient 病人对象，封装了patient_id
 	 * @throws Exception
 	 */
 	@Override

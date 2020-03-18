@@ -1,69 +1,95 @@
-
-
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>消息中心</title>
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="../layuiadmin/layui/css/layui.css" media="all">
-  <link rel="stylesheet" href="../layuiadmin/style/admin.css" media="all">
+    <meta charset="utf-8">
+    <title>消息中心</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
 </head>
 <body>
 
-  <div class="layui-fluid" id="LAY-app-message">
+<div class="layui-fluid" id="LAY-app-message">
     <div class="layui-card">
-      <div class="layui-tab layui-tab-brief">
-        <ul class="layui-tab-title">
-          <li class="layui-this">全部消息</li>
-          <li>通知<span class="layui-badge">6</span></li>
-          <li>私信</li>
-        </ul>
-        <div class="layui-tab-content">
-        
-          <div class="layui-tab-item layui-show">
-            <div class="LAY-app-message-btns" style="margin-bottom: 10px;">
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="all" data-events="del">删除</button>
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="all" data-events="ready">标记已读</button>
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="all" data-events="readyAll">全部已读</button>
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">全部日志</li>
+                <li>我的日志</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <table id="all_log" lay-filter="all_log"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <table id="my_log" lay-filter="my_log"></table>
+                </div>
             </div>
-            
-            <table id="LAY-app-message-all" lay-filter="LAY-app-message-all"></table>
-          </div>
-          <div class="layui-tab-item">
-          
-            <div class="LAY-app-message-btns" style="margin-bottom: 10px;">
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="notice" data-events="del">删除</button>
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="notice" data-events="ready">标记已读</button>
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="notice" data-events="readyAll">全部已读</button>
-            </div>
-            
-            <table id="LAY-app-message-notice" lay-filter="LAY-app-message-notice"></table>
-          </div>
-          <div class="layui-tab-item">
-          
-            <div class="LAY-app-message-btns" style="margin-bottom: 10px;">
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="direct" data-events="del">删除</button>
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="direct" data-events="ready">标记已读</button>
-              <button class="layui-btn layui-btn-primary layui-btn-sm" data-type="direct" data-events="readyAll">全部已读</button>
-            </div>
-            
-            <table id="LAY-app-message-direct" lay-filter="LAY-app-message-direct"></table>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
-  <script src="../layuiadmin/layui/layui.js"></script>  
-  <script>
-  layui.config({
-    base: '../layuiadmin/' //静态资源所在路径
-  }).extend({
-    index: 'lib/index' //主入口模块
-  }).use(['index', 'message']);
-  </script>
+<script src="/layuiadmin/myUtil.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'message', 'table'], function() {
+        let {table, $} = layui;
+
+        renderTable('my_log');
+        renderTable('all_log');
+
+        function renderTable(type)
+        {
+            // 渲染表格
+            table.render({
+                elem: '#' + type, // 绑定table
+                id: 'queryPatients', // 设置该表格的id
+                url: '/getLog',
+                cellMinWidth: 50, //全局定义常规单元格的最小宽度
+                where: {
+                    type: type
+                },
+                page: {
+                    layout: ['prev', 'page', 'next', 'skip', 'count'] // 分页设置
+                },
+                loading: true, //显示分页时加载条
+                parseData: function(res) {
+                    // 设置日期格式
+                    for (let log of res.data) {
+                        log.logCreateTime = new Date(log.logCreateTime).Format("yyyy-MM-dd hh:mm:ss");
+                    }
+
+                    return {
+                        "code": res.code, //解析接口状态
+                        "msg": res.msg, //解析提示文本
+                        "count": res.count, //解析数据长度
+                        "data": res.data //解析数据列表
+                    };
+                },
+                cols: [[{
+                    field: 'logId',
+                    title: '日志编号',
+                    width: 120,
+                    sort: true
+                }, {
+                    field: 'logContent',
+                    title: '日志内容'
+                }, {
+                    field: 'logCreateTime',
+                    title: '时间',
+                    fixed: 'right',
+                    width: 200,
+                    sort: true
+                }]],
+            });
+        }
+    });
+</script>
 </body>
 </html>

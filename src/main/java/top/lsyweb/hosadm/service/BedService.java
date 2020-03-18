@@ -21,8 +21,8 @@ public interface BedService
 	void assignBed(Patient patient, int bedId, int wardId) throws Exception;
 
 	/**
-	 * 解除病床占用
-	 * @param patient
+	 * 解除目标病人的病床占用
+	 * @param patient 病人对象，封装了patient_id
 	 * @throws Exception
 	 */
 	void removeBed(Patient patient) throws Exception;

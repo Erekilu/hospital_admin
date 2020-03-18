@@ -10,5 +10,9 @@ import java.util.List;
  */
 public interface DepartmentService
 {
+	/**
+	 * 查询所有的部门信息
+	 * @return 部门对象集合
+	 */
 	List<Department> queryDepartments();
 }

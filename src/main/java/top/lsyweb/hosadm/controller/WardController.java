@@ -26,6 +26,10 @@ public class WardController
 	@Autowired
 	private WardService wardService;
 
+	/**
+	 * 获取当前管理者部门的所有病房及病床信息
+	 * @return 满足条件病房病床信息（嵌套）
+	 */
 	@GetMapping("/getWards")
 	public Map<String, Object> getWards()
 	{
@@ -38,7 +42,6 @@ public class WardController
 		// 获取当前admin的部门
 		Long departmentId = sessionAdmin.getAdminBelong();
 
-//		Map<Integer, Map<Integer, Bed>> mapMap = wardService.queryWardsBeds(departmentId.intValue());
 		List<Ward> wards = wardService.queryWardsBeds(departmentId.intValue());
 
 		map.put("data", wards);

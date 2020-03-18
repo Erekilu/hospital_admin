@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import top.lsyweb.hosadm.domain.Admin;
+import top.lsyweb.hosadm.domain.Log;
 import top.lsyweb.hosadm.domain.Patient;
 import top.lsyweb.hosadm.dto.PatientExecution;
 import top.lsyweb.hosadm.mapper.PatientMapper;
+import top.lsyweb.hosadm.service.LogService;
 import top.lsyweb.hosadm.service.PatientService;
 import top.lsyweb.hosadm.util.PathUtil;
 
@@ -29,6 +31,8 @@ public class PatientController
 {
 	@Autowired
 	private PatientService patientService;
+	@Autowired
+	private LogService logService;
 
 	/**
 	 * 添加病人（挂号）
@@ -52,15 +56,20 @@ public class PatientController
 		// 添加患者
 		patientService.addPatient(patient);
 
+		// 添加日志记录
+		Subject subject = SecurityUtils.getSubject();
+		Admin admin = (Admin)subject.getPrincipal();
+		String content = "前台【" + admin.getAdminName() + "】录入了病人【" + patient.getPatientName() + "】";
+		logService.addLog(admin, content);
+
 		map.put("code", 0);
 		return map;
 	}
 
 	/**
-	 * 上传病人图片
-	 *
-	 * @param file
-	 * @return
+	 * 异步接收病人图片
+	 * @param file 图片文件
+	 * @return 图片唯一标识
 	 */
 	@PostMapping("/patientUpload")
 	public Map<String, Object> patientUpload(MultipartFile file)
@@ -105,7 +114,7 @@ public class PatientController
 	 * @param page 页号
 	 * @param limit 每页多少条
 	 * @param queryString 查询条件
-	 * @return
+	 * @return 满足条件病人封装的集合
 	 */
 	@GetMapping("/getPatients")
 	public Map<String, Object> getPatients(int page, int limit, String queryString)

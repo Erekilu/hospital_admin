@@ -12,7 +12,16 @@ import java.util.Map;
  */
 public interface WardService
 {
+	/**
+	 * 查询目标科室下的所有病房
+	 * @param wardBelong 科室id
+	 * @return 病房集合
+	 */
 	List<Ward> queryWardsBeds(int wardBelong);
 
+	/**
+	 * 维护目标病房的拥挤状态
+	 * @param wardId 病房id
+	 */
 	void maintainWard(int wardId);
 }

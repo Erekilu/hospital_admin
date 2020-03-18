@@ -30,6 +30,11 @@ public class AdminServiceImpl implements AdminService
 	@Autowired
 	private AdminMapper adminMapper;
 
+	/**
+	 * 根据用户id查询用户对象
+	 * @param id 用户id
+	 * @return 用户对象
+	 */
 	@Override
 	public Admin findAdminById(int id)
 	{
@@ -37,9 +42,9 @@ public class AdminServiceImpl implements AdminService
 	}
 
 	/**
-	 * 更新admin数据，并将新的admin返回
-	 * @param admin
-	 * @return
+	 * 更新用户数据
+	 * @param admin 封装了部分用户数据的用户对象
+	 * @return 更新后的完整用户对象
 	 */
 	@Override
 	public Admin changeAdminById(Admin admin)
@@ -50,10 +55,10 @@ public class AdminServiceImpl implements AdminService
 	}
 
 	/**
-	 * 修改admin头像
-	 * @param admin
-	 * @param file
-	 * @return
+	 * 修改用户头像
+	 * @param admin 用户对象，包含了用户id用户修改数据库的src
+	 * @param file 图片文件
+	 * @return 修改src之后的新对象
 	 */
 	@Override
 	public Admin changeAdminSrcById(Admin admin, MultipartFile file)

@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.util.UUID;
 
 /**
+ * 应该就叫Util的，本来想着给各个功能分类，但功能实在不多，所以就写到一个工具类里了
+ * 包括了获取基路径，生成uuid，图片输出到本地，页号与行号的转化功能
  * @Auther: Erekilu
  * @Date: 2020-03-08
  */

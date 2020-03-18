@@ -35,10 +35,16 @@ public class ShiroConfig
 		filterMap.put("/error", "anon");
 
 		// 权限拦截规则
-		filterMap.put("/", "perms[admin:assign]");
-		filterMap.put("/index", "perms[admin:assign]");
-		filterMap.put("/views/record/*", "perms[admin:record]");
+		filterMap.put("/assignBed", "perms[admin:assign]");
+		filterMap.put("/removeBed", "perms[admin:assign]");
+		filterMap.put("/getPatients", "perms[admin:assign]");
+		filterMap.put("/getWards", "perms[admin:assign]");
 		filterMap.put("/views/assign/*", "perms[admin:assign]");
+
+		filterMap.put("/addPatient", "perms[admin:record]");
+		filterMap.put("/patientUpload", "perms[admin:record]");
+		filterMap.put("/views/record/*", "perms[admin:record]");
+
 
 		// 认证拦截规则
 		filterMap.put("/views/**", "authc");
@@ -46,6 +52,8 @@ public class ShiroConfig
 		filterMap.put("/adminInfo", "authc");
 		filterMap.put("/adminUpload", "authc");
 		filterMap.put("/adminChangePassword", "authc");
+		filterMap.put("/department", "authc");
+		filterMap.put("/getLog", "authc");
 
 		filterMap.put("/logout", "logout");
 
