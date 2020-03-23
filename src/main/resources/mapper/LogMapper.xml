@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="top.lsyweb.hosadm.mapper.LogMapper">
+	<insert id="insertLog">
+		insert into log (log_master, log_belong, log_content, log_create_time)
+		values (#{logMaster}, #{logBelong}, #{logContent}, #{logCreateTime})
+	</insert>
+
+	<select id="queryLogsByAdmin" resultType="Log">
+		select *
+		from log where log_master = #{logMaster}
+		order by log_create_time desc
+		limit #{rowIndex}, #{pageSize};
+	</select>
+
+	<select id="queryLogsCountByAdmin" resultType="int">
+		select count(*)
+		from log where log_master = #{logMaster}
+	</select>
+
+	<select id="queryLogsByDepartment" resultType="Log">
+		select *
+		from log where log_belong = #{logBelong}
+		order by log_create_time desc
+		limit #{rowIndex}, #{pageSize}
+	</select>
+
+	<select id="queryLogsCountByDepartment" resultType="int">
+		select count(*)
+		from log where log_belong = #{logBelong}
+	</select>
+</mapper>

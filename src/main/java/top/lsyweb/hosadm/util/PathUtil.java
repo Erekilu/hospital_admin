@@ -30,7 +30,7 @@ public class PathUtil
 		// 判断系统
 		if (os.toLowerCase().startsWith("win"))
 		{
-			basePath = "E:/hospital_admin/";
+			basePath = "D:/hospital_admin/";
 		}
 		else
 		{
