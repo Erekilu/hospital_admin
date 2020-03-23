@@ -53,4 +53,8 @@ public interface PatientMapper
 	 * @return 该操作影响的数据库行数
 	 */
 	int changeBed(Patient patient);
+
+	int queryManToday();
+
+	int queryWomanToday();
 }

@@ -3,6 +3,8 @@ package top.lsyweb.hosadm.service;
 import top.lsyweb.hosadm.domain.Patient;
 import top.lsyweb.hosadm.dto.PatientExecution;
 
+import java.util.Map;
+
 /**
  * @Auther: Erekilu
  * @Date: 2020-03-10
@@ -24,4 +26,6 @@ public interface PatientService
 	 * @return 病人集合和病人总数
 	 */
 	PatientExecution queryPatientByInp(String queryString, int pageIndex, int pageSize, Long departmentId);
+
+	Map<String, Object> querySexToday();
 }

@@ -10,6 +10,8 @@ import top.lsyweb.hosadm.util.PathUtil;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Auther: Erekilu
@@ -53,5 +55,14 @@ public class PatientServiceImpl implements PatientService
 		// 获取病人列表
 		patientExecution.setPatients(patientMapper.queryPatientByInp(queryString, rowIndex, pageSize, departmentId));
 		return patientExecution;
+	}
+
+	@Override
+	public Map<String, Object> querySexToday()
+	{
+		Map<String, Object> map = new HashMap<>();
+		map.put("man", patientMapper.queryManToday());
+		map.put("woman", patientMapper.queryWomanToday());
+		return map;
 	}
 }

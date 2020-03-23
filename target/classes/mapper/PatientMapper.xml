@@ -3,23 +3,25 @@
 
 <mapper namespace="top.lsyweb.hosadm.mapper.PatientMapper">
 	<select id="findPatientById" resultType="Patient">
-		select * from patient where patient_id = #{patientId}
+		select *
+		from patient
+		where patient_id = #{patientId}
 	</select>
 
 	<insert id="addPatient">
-		insert into patient (
-		  	patient_name, patient_belong, patient_phone, patient_sex, patient_create_time, patient_last_edit_time,
-		  	patient_describe, patient_src
-		  ) values (
-		    #{patientName}, #{patientBelong}, #{patientPhone}, #{patientSex}, #{patientCreateTime}, #{patientLastEditTime},
-			#{patientDescribe}, #{patientSrc}
-		  )
+		insert into patient (patient_name, patient_belong, patient_phone, patient_sex, patient_create_time,
+							 patient_last_edit_time,
+							 patient_describe, patient_src)
+		values (#{patientName}, #{patientBelong}, #{patientPhone}, #{patientSex}, #{patientCreateTime},
+				#{patientLastEditTime},
+				#{patientDescribe}, #{patientSrc})
 	</insert>
 
 	<select id="queryPatientByInp" resultType="Patient">
-		select * from patient where
-		    patient_belong = #{departmentId}
-			and (patient_id = #{queryString}
+		select *
+		from patient
+		where patient_belong = #{departmentId}
+		  and (patient_id = #{queryString}
 			or patient_name like '%${queryString}%'
 			or patient_phone = #{queryString})
 		order by patient_create_time desc
@@ -28,15 +30,25 @@
 
 	<select id="queryPatientCountByInp" resultType="int">
 		select count(*)
-		from patient where
-		patient_belong = #{departmentId}
-		and (patient_id = #{queryString}
-		or patient_name like '%${queryString}%'
-		or patient_phone = #{queryString})
+		from patient
+		where patient_belong = #{departmentId}
+		  and (patient_id = #{queryString}
+			or patient_name like '%${queryString}%'
+			or patient_phone = #{queryString})
 	</select>
 
 	<update id="changeBed" parameterType="Patient">
-		update patient set patient_bed = #{patientBed}, patient_last_edit_time = #{patientLastEditTime}
+		update patient
+		set patient_bed            = #{patientBed},
+			patient_last_edit_time = #{patientLastEditTime}
 		where patient_id = #{patientId}
 	</update>
+
+	<select id="queryManToday" resultType="int">
+		select count(*) from patient where patient_sex = '男' and to_days(patient_create_time) = to_days(now())
+	</select>
+
+	<select id="queryWomanToday" resultType="int">
+		select count(*) from patient where patient_sex = '女' and to_days(patient_create_time) = to_days(now())
+	</select>
 </mapper>
