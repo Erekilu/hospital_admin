@@ -65,4 +65,36 @@ public class PatientServiceImpl implements PatientService
 		map.put("woman", patientMapper.queryWomanToday());
 		return map;
 	}
+
+	/**
+	 * 查询指定与当天00:00间隔向下取整小时数的录入病人数
+	 * @return 24个间隔一小时时间段的数据数组
+	 */
+	@Override
+	public int[] queryPatientTodayEachHour()
+	{
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientEachHour(i);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询指定与当天00:00间隔向下取整小时数的录入病人数
+	 * @return 24个间隔一小时时间段的数据数组
+	 */
+	@Override
+	public int[] queryPatientInHospitalEachHour()
+	{
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientInHospitalEachHour(i);
+			i++;
+		}
+		return array;
+	}
 }

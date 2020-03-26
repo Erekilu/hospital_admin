@@ -54,7 +54,29 @@ public interface PatientMapper
 	 */
 	int changeBed(Patient patient);
 
+	/**
+	 * 查询今日新增的男性病人数量
+	 * @return 满足条件的病人数量
+	 */
 	int queryManToday();
 
+	/**
+	 * 查询今日新增的女性病人数量
+	 * @return 满足条件的病人数量
+	 */
 	int queryWomanToday();
+
+	/**
+	 * 查询每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段录入的病人数
+	 * @param hour 距离当天00:00的向下取整小时数
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientEachHour(int hour);
+
+	/**
+	 * 查询每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段住院的病人数
+	 * @param hour
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientInHospitalEachHour(int hour);
 }

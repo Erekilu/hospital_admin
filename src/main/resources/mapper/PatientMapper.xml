@@ -45,10 +45,18 @@
 	</update>
 
 	<select id="queryManToday" resultType="int">
-		select count(*) from patient where patient_sex = '男' and to_days(patient_create_time) = to_days(now())
+		select count(*) from patient where patient_sex = '男' and to_days(now()) = to_days(patient_create_time)
 	</select>
 
 	<select id="queryWomanToday" resultType="int">
-		select count(*) from patient where patient_sex = '女' and to_days(patient_create_time) = to_days(now())
+		select count(*) from patient where patient_sex = '女' and to_days(now()) = to_days(patient_create_time)
+	</select>
+	
+	<select id="queryPatientEachHour" resultType="int">
+		select count(*) from patient where hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
+	</select>
+	
+	<select id="queryPatientInHospitalEachHour" resultType="int">
+		select count(*) from patient where patient_bed is not null and hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
 	</select>
 </mapper>

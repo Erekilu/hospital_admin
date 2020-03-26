@@ -27,5 +27,18 @@ public interface PatientService
 	 */
 	PatientExecution queryPatientByInp(String queryString, int pageIndex, int pageSize, Long departmentId);
 
+
 	Map<String, Object> querySexToday();
+
+	/**
+	 * 查询指定与当天00:00间隔向下取整小时数的录入病人数
+	 * @return 24个间隔一小时时间段的病人数数组
+	 */
+	int[] queryPatientTodayEachHour();
+
+	/**
+	 * 查询指定与当天00:00间隔向下取整小时数的住院病人数
+	 * @return 24个间隔一小时时间段的病人数数组
+	 */
+	int[] queryPatientInHospitalEachHour();
 }
