@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="top.lsyweb.hosadm.mapper.PatientMapper">
+	<select id="findPatientById" resultType="Patient">
+		select *
+		from patient
+		where patient_id = #{patientId}
+	</select>
+
+	<insert id="addPatient">
+		insert into patient (patient_name, patient_belong, patient_phone, patient_sex, patient_create_time,
+							 patient_last_edit_time,
+							 patient_describe, patient_src)
+		values (#{patientName}, #{patientBelong}, #{patientPhone}, #{patientSex}, #{patientCreateTime},
+				#{patientLastEditTime},
+				#{patientDescribe}, #{patientSrc})
+	</insert>
+
+	<select id="queryPatientByInp" resultType="Patient">
+		select *
+		from patient
+		where patient_belong = #{departmentId}
+		  and (patient_id = #{queryString}
+			or patient_name like '%${queryString}%'
+			or patient_phone = #{queryString})
+		order by patient_create_time desc
+		limit #{rowIndex}, #{pageSize}
+	</select>
+
+	<select id="queryPatientCountByInp" resultType="int">
+		select count(*)
+		from patient
+		where patient_belong = #{departmentId}
+		  and (patient_id = #{queryString}
+			or patient_name like '%${queryString}%'
+			or patient_phone = #{queryString})
+	</select>
+
+	<update id="changeBed" parameterType="Patient">
+		update patient
+		set patient_bed            = #{patientBed},
+			patient_last_edit_time = #{patientLastEditTime}
+		where patient_id = #{patientId}
+	</update>
+
+	<select id="queryManToday" resultType="int">
+		select count(*) from patient where patient_sex = '男' and to_days(patient_create_time) = to_days(now())
+	</select>
+
+	<select id="queryWomanToday" resultType="int">
+		select count(*) from patient where patient_sex = '女' and to_days(patient_create_time) = to_days(now())
+	</select>
+
+	<select id="queryManByInp" resultType="int">
+		select count(*) from patient where patient_sex = '男' and patient_belong = #{departmentId}
+	</select>
+
+	<select id="queryWomanByInp" resultType="int">
+		select count(*) from patient where patient_sex = '女' and patient_belong = #{departmentId}
+	</select>
+
+	<select id="queryPatientByTime" resultType="int">
+		 select count(*) from patient where patient_belong = #{departmentId}
+									  and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
+									  and ((floor(to_days(now()) / 7) - #{week}) * 7 + #{day}) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryPatientIfBed" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId}
+									  and patient_bed is not null
+	</select>
+
+	<select id="queryPatientInHos" resultType="int">
+		 select count(*) from patient where patient_belong = #{departmentId}
+									  and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
+									  and patient_bed is not null
+	</select>
+
+</mapper>
