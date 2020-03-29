@@ -52,26 +52,26 @@
 		select count(*) from patient where patient_sex = '女' and to_days(patient_create_time) = to_days(now())
 	</select>
 
-	<select id="queryManByInp" resultType="int">
+	<select id="queryManByInp_1" resultType="int">
 		select count(*) from patient where patient_sex = '男' and patient_belong = #{departmentId}
 	</select>
 
-	<select id="queryWomanByInp" resultType="int">
+	<select id="queryWomanByInp_1" resultType="int">
 		select count(*) from patient where patient_sex = '女' and patient_belong = #{departmentId}
 	</select>
 
-	<select id="queryPatientByTime" resultType="int">
+	<select id="queryPatientByTime_1" resultType="int">
 		 select count(*) from patient where patient_belong = #{departmentId}
 									  and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
 									  and ((floor(to_days(now()) / 7) - #{week}) * 7 + #{day}) = to_days(patient_create_time)
 	</select>
 
-	<select id="queryPatientIfBed" resultType="int">
+	<select id="queryPatientIfBed_1" resultType="int">
 		select count(*) from patient where patient_belong = #{departmentId}
 									  and patient_bed is not null
 	</select>
 
-	<select id="queryPatientInHos" resultType="int">
+	<select id="queryPatientInHos_1" resultType="int">
 		 select count(*) from patient where patient_belong = #{departmentId}
 									  and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
 									  and patient_bed is not null

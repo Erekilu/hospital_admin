@@ -29,11 +29,11 @@ public interface PatientService
 
 	Map<String, Object> querySexToday();
 
-	Map<String, Object> querySexByInp(Long departmentId);
+	Map<String, Object> querySexByInp_1(Long departmentId);
 
-	Map<String, Object> queryPatientByTime(Long departmentId);
+	Map<String, Object> queryPatientByTime_1(Long departmentId);
 
-	int queryPatientIfBed(Long departmentId);
+	int queryPatientIfBed_1(Long departmentId);
 
-	Map<String, Object> queryPatientInHos(Long departmentId);
+	Map<String, Object> queryPatientInHos_1(Long departmentId);
 }

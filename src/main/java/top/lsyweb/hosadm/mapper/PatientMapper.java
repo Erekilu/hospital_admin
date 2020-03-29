@@ -63,14 +63,14 @@ public interface PatientMapper
 	 * @param departmentId 部门id
 	 * @return 满足条件的病人数量
 	 */
-	int queryManByInp(@Param("departmentId") Long departmentId);
+	int queryManByInp_1(@Param("departmentId") Long departmentId);
 
 	/**
 	 * 查询所有隶属于目标部门的女性病人数量
 	 * @param departmentId 部门id
 	 * @return 满足条件的病人数量
 	 */
-	int queryWomanByInp(@Param("departmentId") Long departmentId);
+	int queryWomanByInp_1(@Param("departmentId") Long departmentId);
 
 	/**
 	 * 查询所有隶属于目标部门和目标时间段内的病人
@@ -79,14 +79,14 @@ public interface PatientMapper
 	 * @param day 几个星期前的星期几
 	 * @return 满足条件的病人数量
 	 */
-	int queryPatientByTime(@Param("departmentId") Long departmentId, @Param("week") int week, @Param("day") int day);
+	int queryPatientByTime_1(@Param("departmentId") Long departmentId, @Param("week") int week, @Param("day") int day);
 
 	/**
 	 * 查询所有隶属于目标部门并分配了病床的病人数量
 	 * @param departmentId 部门id
 	 * @return 满足条件的病人数量
 	 */
-	int queryPatientIfBed(@Param("departmentId") Long departmentId);
+	int queryPatientIfBed_1(@Param("departmentId") Long departmentId);
 
 	/**
 	 * 查询所有隶属于目标部门和目标时间段内的住院病人
@@ -94,6 +94,6 @@ public interface PatientMapper
 	 * @param week 几个星期前
 	 * @return 满足条件的病人数量
 	 */
-	int queryPatientInHos(@Param("departmentId") Long departmentId, @Param("week") int week);
+	int queryPatientInHos_1(@Param("departmentId") Long departmentId, @Param("week") int week);
 
 }

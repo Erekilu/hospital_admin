@@ -65,20 +65,20 @@ public class PatientServiceImpl implements PatientService
 	}
 
 	@Override
-	public Map<String, Object> querySexByInp(Long departmentId) {
+	public Map<String, Object> querySexByInp_1(Long departmentId) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("man", patientMapper.queryManByInp(departmentId));
-		map.put("woman", patientMapper.queryWomanByInp(departmentId));
+		map.put("man", patientMapper.queryManByInp_1(departmentId));
+		map.put("woman", patientMapper.queryWomanByInp_1(departmentId));
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> queryPatientByTime(Long departmentId) {
+	public Map<String, Object> queryPatientByTime_1(Long departmentId) {
 		Map<String, Object> map = new HashMap<>();
 		int thisweek = 0, lastweek = 0;
 		for (int i = 0; i < 7; i++) {
-			int temp1 = patientMapper.queryPatientByTime(departmentId, 0, i);
-			int temp2 = patientMapper.queryPatientByTime(departmentId, 1, i);
+			int temp1 = patientMapper.queryPatientByTime_1(departmentId, 0, i);
+			int temp2 = patientMapper.queryPatientByTime_1(departmentId, 1, i);
 			thisweek += temp1;
 			lastweek += temp2;
 			if (i == 0) map.put("six", temp1);
@@ -95,15 +95,15 @@ public class PatientServiceImpl implements PatientService
 	}
 
 	@Override
-	public int queryPatientIfBed(Long departmentId) {
-		return patientMapper.queryPatientIfBed(departmentId);
+	public int queryPatientIfBed_1(Long departmentId) {
+		return patientMapper.queryPatientIfBed_1(departmentId);
 	}
 
 	@Override
-	public Map<String, Object> queryPatientInHos(Long departmentId) {
+	public Map<String, Object> queryPatientInHos_1(Long departmentId) {
 		Map<String, Object> map = new HashMap<>();
-		map.put("thisweekbed", patientMapper.queryPatientInHos(departmentId, 0));
-		map.put("lastweekbed", patientMapper.queryPatientInHos(departmentId, 1));
+		map.put("thisweekbed", patientMapper.queryPatientInHos_1(departmentId, 0));
+		map.put("lastweekbed", patientMapper.queryPatientInHos_1(departmentId, 1));
 		return map;
 	}
 
