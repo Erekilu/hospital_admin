@@ -58,11 +58,11 @@ public class PatientServiceImpl implements PatientService
 	}
 
 	@Override
-	public Map<String, Object> querySexToday()
+	public Map<String, Object> querySexToday_2()
 	{
 		Map<String, Object> map = new HashMap<>();
-		map.put("man", patientMapper.queryManToday());
-		map.put("woman", patientMapper.queryWomanToday());
+		map.put("man", patientMapper.queryManToday_2());
+		map.put("woman", patientMapper.queryWomanToday_2());
 		return map;
 	}
 
@@ -71,12 +71,12 @@ public class PatientServiceImpl implements PatientService
 	 * @return 24个间隔一小时时间段的数据数组
 	 */
 	@Override
-	public int[] queryPatientTodayEachHour()
+	public int[] queryPatientTodayEachHour_2()
 	{
 		int[] array = new int[24];
 		int i = 0;
 		while (i < 24){
-			array[i] = patientMapper.queryPatientEachHour(i);
+			array[i] = patientMapper.queryPatientEachHour_2(i);
 			i++;
 		}
 		return array;
@@ -87,14 +87,69 @@ public class PatientServiceImpl implements PatientService
 	 * @return 24个间隔一小时时间段的数据数组
 	 */
 	@Override
-	public int[] queryPatientInHospitalEachHour()
+	public int[] queryPatientInHospitalEachHour_2()
 	{
 		int[] array = new int[24];
 		int i = 0;
 		while (i < 24){
-			array[i] = patientMapper.queryPatientInHospitalEachHour(i);
+			array[i] = patientMapper.queryPatientInHospitalEachHour_2(i);
 			i++;
 		}
 		return array;
+	}
+
+	/**
+	 * 查询今日新增的男性女性病人数量
+	 * @param departmentId
+	 * @return 男性女性病人数的map
+	 */
+	@Override
+	public Map<String, Object> querySexTodayByInp_2(Long departmentId)
+	{
+		Map<String, Object> map = new HashMap<>();
+		map.put("man", patientMapper.queryManByInp_2(departmentId));
+		map.put("woman", patientMapper.queryWomanByInp_2(departmentId));
+		return map;
+	}
+
+	/**
+	 * 查询主任所在科室每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段录入的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	@Override
+	public int[] queryPatientEachHourByInp_2(Long departmentId){
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientEachHourByInp_2(i, departmentId);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询主任所在科室每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段住院的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	@Override
+	public int[] queryPatientInHospitalEachHourByInp_2(Long departmentId){
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientInHospitalEachHourByInp_2(i, departmentId);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询主任所在科室今天住院的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	public int queryPatientTodayInHospital_2(Long departmentId){
+		return patientMapper.queryPatientTodayInHospital_2(departmentId);
 	}
 }

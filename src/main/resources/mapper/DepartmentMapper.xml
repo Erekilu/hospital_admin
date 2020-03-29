@@ -6,23 +6,5 @@
 		select * from department
 	</select>
 
-	<select id="queryManByInp" resultType="int">
-		select count(*) from patient where patient_belong = #{departmentId} and to_days(now()) - to_days(patient_create_time) &lt; 1 and patient_sex = '男'
-	</select>
 
-	<select id="queryWomanByInp" resultType="int">
-		select count(*) from patient where patient_belong = #{departmentId} and to_days(now()) - to_days(patient_create_time) &lt; 1 and patient_sex = '女'
-	</select>
-
-	<select id="queryPatientEachHourByInp" resultType="int">
-		select count(*) from patient where patient_belong = #{departmentId} and hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
-	</select>
-
-	<select id="queryPatientInHospitalEachHourByInp" resultType="int">
-		select count(*) from patient where patient_belong = #{departmentId} and patient_bed is not null and hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
-	</select>
-
-	<select id="queryPatientTodayInHospital" resultType="int">
-		select count(*) from patient where patient_belong = #{departmentId} and patient_bed is not null and to_days(now()) = to_days(patient_create_time)
-	</select>
 </mapper>
