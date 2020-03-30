@@ -17,7 +17,7 @@
     <i class="layui-icon" face>&#xe664;</i>
     
     <div class="layui-text" style="font-size: 20px;">
-      找不到资源！
+      检测到你处于未登录状态，3秒后自动跳转到登录页
     </div>
     
   </div>
@@ -30,7 +30,15 @@
     base: '/layuiadmin/' //静态资源所在路径
   }).extend({
     index: 'lib/index' //主入口模块
-  }).use(['index']);
+  }).use(['index'], function() {
+    let $ = layui.$;
+
+    $(function() {
+      setTimeout(() => {
+        window.top.location = "/login";
+      }, 3000);
+    });
+  });
   </script>
 </body>
 </html>

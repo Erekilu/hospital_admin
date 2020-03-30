@@ -33,16 +33,20 @@ public class ShiroConfig
 		// 公开页面
 		filterMap.put("/login", "anon");
 		filterMap.put("/error", "anon");
+		filterMap.put("/views/toLogin.html", "anon");
 
 		// 权限拦截规则
 		filterMap.put("/assignBed", "perms[admin:assign]");
 		filterMap.put("/removeBed", "perms[admin:assign]");
 		filterMap.put("/getPatients", "perms[admin:assign]");
 		filterMap.put("/getWards", "perms[admin:assign]");
+		filterMap.put("/getData2_2", "perms[admin:assign]");  // wnz统计界面权限拦截
+		filterMap.put("/getPatientsByInp", "perms[admin:assign]"); // zyj统计界面权限拦截
 		filterMap.put("/views/assign/*", "perms[admin:assign]");
 
 		filterMap.put("/addPatient", "perms[admin:record]");
 		filterMap.put("/patientUpload", "perms[admin:record]");
+		filterMap.put("/getData_2", "perms[admin:record]"); // wnz统计界面权限拦截
 		filterMap.put("/views/record/*", "perms[admin:record]");
 
 
