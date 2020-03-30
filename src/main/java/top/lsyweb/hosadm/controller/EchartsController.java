@@ -26,7 +26,7 @@ public class EchartsController
 	@Autowired
 	private WardService wardService;
 
-	@GetMapping("/getData1")
+	@GetMapping("/getSexToday")
 	public Map<String, Object> getData()
 	{
 		Map<String, Object> map = patientService.querySexToday();
