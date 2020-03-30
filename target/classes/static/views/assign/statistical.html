@@ -22,10 +22,10 @@
                     <span class="layui-badge layui-bg-blue layuiadmin-badge">周</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">212</p>
+                    <p id="numberThisweek" class="layuiadmin-big-font"></p>
                     <p>
                         所在科总录入病人数
-                        <span class="layuiadmin-span-color">5145</span>
+                        <span id="numberAll" class="layuiadmin-span-color"></span>
                     </p>
                 </div>
             </div>
@@ -37,10 +37,10 @@
                     <span class="layui-badge layui-bg-blue layuiadmin-badge">周</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">203</p>
+                    <p id = "haveBed"class="layuiadmin-big-font"></p>
                     <p>
                         比率
-                        <span class="layuiadmin-span-color">94%(203 / 212)</span>
+                        <span id = "haveBedRate" class="layuiadmin-span-color"></span>
                     </p>
                 </div>
             </div>
@@ -52,10 +52,10 @@
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
 
-                    <p class="layuiadmin-big-font">3</p>
+                    <p id = 'allWards' class="layuiadmin-big-font"></p>
                     <p>
                         病房空闲占比
-                        <span class="layuiadmin-span-color">33%</span>
+                        <span id = 'relRate' class="layuiadmin-span-color"></span>
                     </p>
                 </div>
             </div>
@@ -66,10 +66,10 @@
                     所在科病床总数
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p class="layuiadmin-big-font">75</p>
+                    <p id = 'allBeds' class="layuiadmin-big-font"></p>
                     <p>
                         病床占用比
-                        <span class="layuiadmin-span-color">15% <i class="layui-inline layui-icon layui-icon-user"></i></span>
+                        <span id = 'bedRate' class="layuiadmin-span-color"><i class="layui-inline layui-icon layui-icon-user"></i></span>
                     </p>
                 </div>
             </div>
@@ -89,21 +89,21 @@
                                 <p class="layuiadmin-normal-font">周录入病人</p>
                                 <span>同上周增长</span>
                                 <div class="layui-progress layui-progress-big" lay-showPercent="yes">
-                                    <div class="layui-progress-bar" lay-percent="30%"></div>
+                                    <div id = 'weekRate' class="layui-progress-bar"></div>
                                 </div>
                             </div>
                             <div class="layuiadmin-card-list">
                                 <p class="layuiadmin-normal-font">周住院病人</p>
                                 <span>同上周增长</span>
                                 <div class="layui-progress layui-progress-big" lay-showPercent="yes">
-                                    <div class="layui-progress-bar" lay-percent="20%"></div>
+                                    <div id = 'thisweekpatient' class="layui-progress-bar"></div>
                                 </div>
                             </div>
                             <div class="layuiadmin-card-list">
                                 <p class="layuiadmin-normal-font">周病床占用</p>
                                 <span>同上周增长</span>
                                 <div class="layui-progress layui-progress-big" lay-showPercent="yes">
-                                    <div class="layui-progress-bar" lay-percent="25%"></div>
+                                    <div id = 'thisweekbed' class="layui-progress-bar"></div>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,34 @@
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'sample'], function() {
+        let $ = layui.$,
+            element = layui.element;
         let myChart2 = echarts.init(document.getElementById('chart2'));
+        let statistical;
+
+        $.ajax({
+            url: '/getPatientsByInp',
+            method: 'GET',
+            async: false,
+            success: function(res) {
+                statistical = res;
+            }
+        });
+
+        $('#numberAll').text(statistical.man + statistical.woman);
+        $('#numberThisweek').text(statistical.thisweek);
+        $('#haveBed').text(statistical.haveBed);
+        $('#haveBedRate').text(Math.floor(statistical.haveBed * 1.0 / (statistical.man + statistical.woman) * 1000) * 0.1 + "%(" + statistical.haveBed + "/" + (statistical.man + statistical.woman) + ")")
+        $('#allWards').text(statistical.allWards);
+        $('#relRate').text(Math.floor(statistical.rel * 1.0 / statistical.allWards * 1000) * 0.1 + '%')
+        $('#allBeds').text(statistical.allBeds);
+        $('#bedRate').text(Math.floor(statistical.haveBed * 1.0 / statistical.allBeds * 1000) * 0.1 + '%')
+
+        $('#weekRate').attr('lay-percent', Math.floor((statistical.thisweek - statistical.lastweek) * 1.0 / statistical.lastweek * 1000) * 1.0 / 10 + '%')
+        $('#thisweekpatient').attr('lay-percent', (Math.floor((statistical.thisweekbed - statistical.lastweekbed) * 1.0 / statistical.lastweekbed * 1000) * 0.1) + '%')
+        $('#thisweekbed').attr('lay-percent', (Math.floor((statistical.thisweekbed - statistical.lastweekbed) * 1.0 / statistical.lastweekbed * 1000) * 0.1) + '%')
+
+        let all = (statistical.man + statistical.woman === 0 ? 1 : statistical.man + statistical.woman);
 
         let option2 = {
             grid: {
@@ -141,22 +168,22 @@
                     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
-            dataZoom: [
-                {   // 这个dataZoom组件，默认控制x轴。
-                    type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-                    start: 0,      // 左边在 10% 的位置。
-                    end: 30        // 右边在 60% 的位置。
-                },
-                {   // 这个dataZoom组件，也控制x轴。
-                    type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-                    start: 0,      // 左边在 10% 的位置。
-                    end: 30         // 右边在 60% 的位置。
-                }
-            ],
+            // dataZoom: [
+            //     {   // 这个dataZoom组件，默认控制x轴。
+            //         type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
+            //         start: 0,      // 左边在 10% 的位置。
+            //         end: 30        // 右边在 60% 的位置。
+            //     },
+            //     {   // 这个dataZoom组件，也控制x轴。
+            //         type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
+            //         start: 0,      // 左边在 10% 的位置。
+            //         end: 30         // 右边在 60% 的位置。
+            //     }
+            // ],
             xAxis: [
                 {
                     type: 'category',
-                    data: ['红蓝', '死灵', '黑巨', '白红', '咆哮绿', '黑白系命', '三色混', '法伤', '神器', '三色化灵', '绿蓝化灵', '其他'],
+                    data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'],
                     axisTick: {
                         alignWithLabel: true
                     }
@@ -164,11 +191,11 @@
             ],
             yAxis: [
                 {
-                    name: '使用次数(周)',
+                    name: '病人数量(周)',
                     type: 'value'
                 },
                 {
-                    name: '平均胜率(%)',
+                    name: '住院比例(%)',
                     type: 'value',
                     max: 100,
                     axisLabel: {
@@ -181,7 +208,7 @@
             ],
             series: [
                 {
-                    name: '使用次数',
+                    name: '当天人数',
                     type: 'bar',
                     itemStyle: {
                         color: new echarts.graphic.LinearGradient(
@@ -194,17 +221,27 @@
                         )
                     },
                     barWidth: '50%',
-                    data: [4032, 5441, 4121, 2020, 2155, 2858, 2585, 1874, 3120, 1992, 1859, 4212]
+                    data: [statistical.one, statistical.two, statistical.three, statistical.four, statistical.five, statistical.six, statistical.seven]
                 },
                 {
-                    name: '平均胜率',
+                    name: '住院比例',
                     type: 'line',
                     yAxisIndex: 1,
                     tooltip: {
                         trigger: 'axis',
                         formatter: '{c}%'
                     },
-                    data: [53, 61, 57, 51, 52, 54, 52, 54, 51, 51, 52, 46]
+                    // data: [Math.floor(statistical.one / all * 100) / 100, Math.floor(statistical.two / all * 100) / 100,
+                    //     Math.floor(statistical.three / all * 100) / 100, Math.floor(statistical.four / all * 100) / 100,
+                    //     Math.floor(statistical.five / all * 100) / 100, Math.floor(statistical.six / all * 100) / 100,
+                    //     Math.floor(statistical.seven / all * 100) / 100]
+                    data: [Math.floor(statistical.one * 1.0 / all * 100),
+                        Math.floor(statistical.two * 1.0 / all * 100),
+                        Math.floor(statistical.three * 1.0 / all * 100),
+                        Math.floor(statistical.four * 1.0 / all * 100),
+                        Math.floor(statistical.five * 1.0 / all * 100),
+                        Math.floor(statistical.six * 1.0 / all * 100),
+                        Math.floor(statistical.seven * 1.0 / all * 100)]
                 }
             ]
         };
@@ -214,3 +251,4 @@
 </script>
 </body>
 </html>
+

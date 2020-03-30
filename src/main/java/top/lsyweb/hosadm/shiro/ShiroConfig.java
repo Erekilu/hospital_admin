@@ -59,7 +59,7 @@ public class ShiroConfig
 
 
 		// 指定登录页面
-		shiroFilterFactoryBean.setLoginUrl("/login");
+		shiroFilterFactoryBean.setLoginUrl("/views/toLogin.html");
 		// 指定出错页面
 //		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
 		// 绑定过滤规则
