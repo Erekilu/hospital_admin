@@ -54,7 +54,104 @@ public interface PatientMapper
 	 */
 	int changeBed(Patient patient);
 
-	int queryManToday();
+	/**
+	 * 查询今日新增的男性病人数量
+	 * @return 满足条件的病人数量
+	 */
+	int queryManToday_2();
 
-	int queryWomanToday();
+	/**
+	 * 查询今日新增的女性病人数量
+	 * @return 满足条件的病人数量
+	 */
+	int queryWomanToday_2();
+
+	/**
+	 * 查询每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段录入的病人数
+	 * @param hour 距离当天00:00的向下取整小时数
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientEachHour_2(int hour);
+
+	/**
+	 * 查询每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段住院的病人数
+	 * @param hour
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientInHospitalEachHour_2(int hour);
+
+	/**
+	 * 查询隶属于目标部门的男性病人数量（单日新增）
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数量
+	 */
+	int queryManByInp_2(@Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询隶属于目标部门的女性病人数量（单日新增）
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数量
+	 */
+	int queryWomanByInp_2(@Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询主任所在科室每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段录入的病人数
+	 * @param hour 距离当天00:00的向下取整小时数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientEachHourByInp_2(@Param("hour") int hour, @Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询主任所在科室每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段住院的病人数
+	 * @param hour 距离当天00:00的向下取整小时数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientInHospitalEachHourByInp_2(@Param("hour") int hour, @Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询主任所在科室今天住院的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	int queryPatientTodayInHospital_2(@Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询所有隶属于目标部门的男性病人数量(可增加时间限制)
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数量
+	 */
+	int queryManByInp_1(@Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询所有隶属于目标部门的女性病人数量
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数量
+	 */
+	int queryWomanByInp_1(@Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询所有隶属于目标部门和目标时间段内的病人
+	 * @param departmentId 部门id
+	 * @param week 几个星期前
+	 * @param day 几个星期前的星期几
+	 * @return 满足条件的病人数量
+	 */
+	int queryPatientByTime_1(@Param("departmentId") Long departmentId, @Param("week") int week, @Param("day") int day);
+
+	/**
+	 * 查询所有隶属于目标部门并分配了病床的病人数量
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数量
+	 */
+	int queryPatientIfBed_1(@Param("departmentId") Long departmentId);
+
+	/**
+	 * 查询所有隶属于目标部门和目标时间段内的住院病人
+	 * @param departmentId 部门id
+	 * @param week 几个星期前
+	 * @return 满足条件的病人数量
+	 */
+	int queryPatientInHos_1(@Param("departmentId") Long departmentId, @Param("week") int week);
 }

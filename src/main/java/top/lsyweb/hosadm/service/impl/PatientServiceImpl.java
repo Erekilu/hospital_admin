@@ -58,11 +58,141 @@ public class PatientServiceImpl implements PatientService
 	}
 
 	@Override
-	public Map<String, Object> querySexToday()
+	public Map<String, Object> querySexToday_2()
 	{
 		Map<String, Object> map = new HashMap<>();
-		map.put("man", patientMapper.queryManToday());
-		map.put("woman", patientMapper.queryWomanToday());
+		map.put("man", patientMapper.queryManToday_2());
+		map.put("woman", patientMapper.queryWomanToday_2());
+		return map;
+	}
+
+	/**
+	 * 查询指定与当天00:00间隔向下取整小时数的录入病人数
+	 * @return 24个间隔一小时时间段的数据数组
+	 */
+	@Override
+	public int[] queryPatientTodayEachHour_2()
+	{
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientEachHour_2(i);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询指定与当天00:00间隔向下取整小时数的录入病人数
+	 * @return 24个间隔一小时时间段的数据数组
+	 */
+	@Override
+	public int[] queryPatientInHospitalEachHour_2()
+	{
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientInHospitalEachHour_2(i);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询今日新增的男性女性病人数量
+	 * @param departmentId
+	 * @return 男性女性病人数的map
+	 */
+	@Override
+	public Map<String, Object> querySexTodayByInp_2(Long departmentId)
+	{
+		Map<String, Object> map = new HashMap<>();
+		map.put("man", patientMapper.queryManByInp_2(departmentId));
+		map.put("woman", patientMapper.queryWomanByInp_2(departmentId));
+		return map;
+	}
+
+	/**
+	 * 查询主任所在科室每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段录入的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	@Override
+	public int[] queryPatientEachHourByInp_2(Long departmentId){
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientEachHourByInp_2(i, departmentId);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询主任所在科室每隔整小时（诸如01:00 - 02:00，02:00 - 03:00）时间段住院的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	@Override
+	public int[] queryPatientInHospitalEachHourByInp_2(Long departmentId){
+		int[] array = new int[24];
+		int i = 0;
+		while (i < 24){
+			array[i] = patientMapper.queryPatientInHospitalEachHourByInp_2(i, departmentId);
+			i++;
+		}
+		return array;
+	}
+
+	/**
+	 * 查询主任所在科室今天住院的病人数
+	 * @param departmentId 部门id
+	 * @return 满足条件的病人数
+	 */
+	public int queryPatientTodayInHospital_2(Long departmentId){
+		return patientMapper.queryPatientTodayInHospital_2(departmentId);
+	}
+
+	@Override
+	public Map<String, Object> querySexByInp_1(Long departmentId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("man", patientMapper.queryManByInp_1(departmentId));
+		map.put("woman", patientMapper.queryWomanByInp_1(departmentId));
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> queryPatientByTime_1(Long departmentId) {
+		Map<String, Object> map = new HashMap<>();
+		int thisweek = 0, lastweek = 0;
+		for (int i = 0; i < 7; i++) {
+			int temp1 = patientMapper.queryPatientByTime_1(departmentId, 0, i);
+			int temp2 = patientMapper.queryPatientByTime_1(departmentId, 1, i);
+			thisweek += temp1;
+			lastweek += temp2;
+			if (i == 0) map.put("six", temp1);
+			else if (i == 1) map.put("seven", temp1);
+			else if (i == 2) map.put("one", temp1);
+			else if (i == 3) map.put("two", temp1);
+			else if (i == 4) map.put("three", temp1);
+			else if (i == 5) map.put("four", temp1);
+			else map.put("five", temp1);
+		}
+		map.put("thisweek", thisweek);
+		map.put("lastweek", lastweek);
+		return map;
+	}
+
+	@Override
+	public int queryPatientIfBed_1(Long departmentId) {
+		return patientMapper.queryPatientIfBed_1(departmentId);
+	}
+
+	@Override
+	public Map<String, Object> queryPatientInHos_1(Long departmentId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("thisweekbed", patientMapper.queryPatientInHos_1(departmentId, 0));
+		map.put("lastweekbed", patientMapper.queryPatientInHos_1(departmentId, 1));
 		return map;
 	}
 }

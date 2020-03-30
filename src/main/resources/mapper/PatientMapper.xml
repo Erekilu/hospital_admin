@@ -44,11 +44,64 @@
 		where patient_id = #{patientId}
 	</update>
 
-	<select id="queryManToday" resultType="int">
-		select count(*) from patient where patient_sex = '男' and to_days(patient_create_time) = to_days(now())
+	<select id="queryManToday_2" resultType="int">
+		select count(*) from patient where patient_sex = '男' and to_days(now()) = to_days(patient_create_time)
 	</select>
 
-	<select id="queryWomanToday" resultType="int">
-		select count(*) from patient where patient_sex = '女' and to_days(patient_create_time) = to_days(now())
+	<select id="queryWomanToday_2" resultType="int">
+		select count(*) from patient where patient_sex = '女' and to_days(now()) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryPatientEachHour_2" resultType="int">
+		select count(*) from patient where hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryPatientInHospitalEachHour_2" resultType="int">
+		select count(*) from patient where patient_bed is not null and hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryManByInp_2" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId} and to_days(now()) - to_days(patient_create_time) &lt; 1 and patient_sex = '男'
+	</select>
+
+	<select id="queryWomanByInp_2" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId} and to_days(now()) - to_days(patient_create_time) &lt; 1 and patient_sex = '女'
+	</select>
+
+	<select id="queryPatientEachHourByInp_2" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId} and hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryPatientInHospitalEachHourByInp_2" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId} and patient_bed is not null and hour(timediff(time(patient_create_time), '00:00:00')) = #{hour} + 0 and to_days(now()) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryPatientTodayInHospital_2" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId} and patient_bed is not null and to_days(now()) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryManByInp_1" resultType="int">
+		select count(*) from patient where patient_sex = '男' and patient_belong = #{departmentId}
+	</select>
+
+	<select id="queryWomanByInp_1" resultType="int">
+		select count(*) from patient where patient_sex = '女' and patient_belong = #{departmentId}
+	</select>
+
+	<select id="queryPatientByTime_1" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId}
+									   and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
+									   and ((floor(to_days(now()) / 7) - #{week}) * 7 + #{day}) = to_days(patient_create_time)
+	</select>
+
+	<select id="queryPatientIfBed_1" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId}
+									   and patient_bed is not null
+	</select>
+
+	<select id="queryPatientInHos_1" resultType="int">
+		select count(*) from patient where patient_belong = #{departmentId}
+									   and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
+									   and patient_bed is not null
 	</select>
 </mapper>
