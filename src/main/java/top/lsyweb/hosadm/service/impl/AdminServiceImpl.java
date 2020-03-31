@@ -1,5 +1,7 @@
 package top.lsyweb.hosadm.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import top.lsyweb.hosadm.domain.Admin;
 import top.lsyweb.hosadm.mapper.AdminMapper;
 import top.lsyweb.hosadm.service.AdminService;
 import top.lsyweb.hosadm.util.PathUtil;
+import top.lsyweb.hosadm.util.RedisUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,6 +32,8 @@ public class AdminServiceImpl implements AdminService
 {
 	@Autowired
 	private AdminMapper adminMapper;
+	@Autowired
+	private RedisUtil redisUtil;
 
 	/**
 	 * 根据用户id查询用户对象
@@ -38,7 +43,27 @@ public class AdminServiceImpl implements AdminService
 	@Override
 	public Admin findAdminById(int id)
 	{
-		return adminMapper.findAdminById(id);
+		Admin admin = null;
+		ObjectMapper mapper = new ObjectMapper();
+		if (!redisUtil.exists("admin_" + id)) {
+			admin = adminMapper.findAdminById(id);
+			// 将admin写入redis
+			maintainCache(admin, "admin_" + id);
+		} else {
+			// 获取redis中的用户对象
+			String jsonString = redisUtil.get("admin_" + id);
+			try
+			{
+				// 将获取的json转换成Admin对象
+				admin = mapper.readValue(jsonString, Admin.class);
+			}
+			catch (JsonProcessingException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return admin;
+//		return adminMapper.findAdminById(id);
 	}
 
 	/**
@@ -51,7 +76,10 @@ public class AdminServiceImpl implements AdminService
 	{
 		admin.setAdminLastEditTime(new Timestamp(new Date().getTime()));
 		adminMapper.changeAdminById(admin);
-		return adminMapper.findAdminById(admin.getAdminId().intValue());
+		Admin result = adminMapper.findAdminById(admin.getAdminId().intValue());
+		// 将更新后的用户数据同步到redis
+		maintainCache(result, "admin_" + result.getAdminId());
+		return result;
 	}
 
 	/**
@@ -93,6 +121,22 @@ public class AdminServiceImpl implements AdminService
 		admin.setAdminLastEditTime(new Timestamp(new Date().getTime()));
 		// 修改数据库信息
 		adminMapper.changeAdminById(admin);
-		return adminMapper.findAdminById(admin.getAdminId().intValue());
+		Admin result = adminMapper.findAdminById(admin.getAdminId().intValue());
+		// 将更新后的用户数据同步到redis
+		maintainCache(result, "admin_" + result.getAdminId());
+		return result;
+	}
+
+	private void maintainCache(Admin admin, String name)
+	{
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = null;
+		try {
+			// 将查询到的admin对象以json形式保存在redis中
+			jsonString = mapper.writeValueAsString(admin);
+			redisUtil.set(name, jsonString);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
