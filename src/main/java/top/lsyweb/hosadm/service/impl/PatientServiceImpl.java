@@ -149,6 +149,7 @@ public class PatientServiceImpl implements PatientService
 	 * @param departmentId 部门id
 	 * @return 满足条件的病人数
 	 */
+	@Override
 	public int queryPatientTodayInHospital_2(Long departmentId){
 		return patientMapper.queryPatientTodayInHospital_2(departmentId);
 	}
