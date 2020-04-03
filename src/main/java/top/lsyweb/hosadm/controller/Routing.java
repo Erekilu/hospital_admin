@@ -14,7 +14,7 @@ public class Routing
 	 * 登录界面路由
 	 * @return
 	 */
-	@GetMapping("/login")
+	@GetMapping(value = {"/", "/login"})
 	public String login()
 	{
 		return "/views/login.html";

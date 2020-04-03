@@ -37,10 +37,10 @@
                     <span class="layui-badge layui-bg-blue layuiadmin-badge">周</span>
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p id = "haveBed"class="layuiadmin-big-font"></p>
+                    <p id="haveBed" class="layuiadmin-big-font"></p>
                     <p>
                         比率
-                        <span id = "haveBedRate" class="layuiadmin-span-color"></span>
+                        <span id="haveBedRate" class="layuiadmin-span-color"></span>
                     </p>
                 </div>
             </div>
@@ -52,10 +52,10 @@
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
 
-                    <p id = 'allWards' class="layuiadmin-big-font"></p>
+                    <p id='allWards' class="layuiadmin-big-font"></p>
                     <p>
                         病房空闲占比
-                        <span id = 'relRate' class="layuiadmin-span-color"></span>
+                        <span id='relRate' class="layuiadmin-span-color"></span>
                     </p>
                 </div>
             </div>
@@ -66,10 +66,11 @@
                     所在科病床总数
                 </div>
                 <div class="layui-card-body layuiadmin-card-list">
-                    <p id = 'allBeds' class="layuiadmin-big-font"></p>
+                    <p id='allBeds' class="layuiadmin-big-font"></p>
                     <p>
                         病床占用比
-                        <span id = 'bedRate' class="layuiadmin-span-color"><i class="layui-inline layui-icon layui-icon-user"></i></span>
+                        <span id='bedRate' class="layuiadmin-span-color"><i
+                                class="layui-inline layui-icon layui-icon-user"></i></span>
                     </p>
                 </div>
             </div>
@@ -89,21 +90,21 @@
                                 <p class="layuiadmin-normal-font">周录入病人</p>
                                 <span>同上周增长</span>
                                 <div class="layui-progress layui-progress-big" lay-showPercent="yes">
-                                    <div id = 'weekRate' class="layui-progress-bar"></div>
+                                    <div id='weekRate' class="layui-progress-bar"></div>
                                 </div>
                             </div>
                             <div class="layuiadmin-card-list">
                                 <p class="layuiadmin-normal-font">周住院病人</p>
                                 <span>同上周增长</span>
                                 <div class="layui-progress layui-progress-big" lay-showPercent="yes">
-                                    <div id = 'thisweekpatient' class="layui-progress-bar"></div>
+                                    <div id='thisweekpatient' class="layui-progress-bar"></div>
                                 </div>
                             </div>
                             <div class="layuiadmin-card-list">
                                 <p class="layuiadmin-normal-font">周病床占用</p>
                                 <span>同上周增长</span>
                                 <div class="layui-progress layui-progress-big" lay-showPercent="yes">
-                                    <div id = 'thisweekbed' class="layui-progress-bar"></div>
+                                    <div id='thisweekbed' class="layui-progress-bar"></div>
                                 </div>
                             </div>
                         </div>
@@ -140,15 +141,15 @@
         $('#numberAll').text(statistical.man + statistical.woman);
         $('#numberThisweek').text(statistical.thisweek);
         $('#haveBed').text(statistical.haveBed);
-        $('#haveBedRate').text(Math.floor(statistical.haveBed * 1.0 / (statistical.man + statistical.woman) * 1000) * 0.1 + "%(" + statistical.haveBed + "/" + (statistical.man + statistical.woman) + ")")
+        $('#haveBedRate').text(Math.floor(statistical.haveBed * 1.0 / (statistical.man + statistical.woman) * 1000) * 1.0 / 10 + "%(" + statistical.haveBed + "/" + (statistical.man + statistical.woman) + ")")
         $('#allWards').text(statistical.allWards);
-        $('#relRate').text(Math.floor(statistical.rel * 1.0 / statistical.allWards * 1000) * 0.1 + '%')
+        $('#relRate').text(Math.floor(statistical.rel * 1.0 / statistical.allWards * 1000) * 1.0 / 10 + '%')
         $('#allBeds').text(statistical.allBeds);
-        $('#bedRate').text(Math.floor(statistical.haveBed * 1.0 / statistical.allBeds * 1000) * 0.1 + '%')
+        $('#bedRate').text(Math.floor(statistical.haveBed * 1.0 / statistical.allBeds * 1000) * 1.0 / 10 + '%')
 
         $('#weekRate').attr('lay-percent', Math.floor((statistical.thisweek - statistical.lastweek) * 1.0 / statistical.lastweek * 1000) * 1.0 / 10 + '%')
-        $('#thisweekpatient').attr('lay-percent', (Math.floor((statistical.thisweekbed - statistical.lastweekbed) * 1.0 / statistical.lastweekbed * 1000) * 0.1) + '%')
-        $('#thisweekbed').attr('lay-percent', (Math.floor((statistical.thisweekbed - statistical.lastweekbed) * 1.0 / statistical.lastweekbed * 1000) * 0.1) + '%')
+        $('#thisweekpatient').attr('lay-percent', (Math.floor((statistical.thisweekbed - statistical.lastweekbed) * 1.0 / statistical.lastweekbed * 1000) * 1.0 / 10) + '%')
+        $('#thisweekbed').attr('lay-percent', (Math.floor((statistical.thisweekbed - statistical.lastweekbed) * 1.0 / statistical.lastweekbed * 1000) * 1.0 / 10) + '%')
 
         let all = (statistical.man + statistical.woman === 0 ? 1 : statistical.man + statistical.woman);
 

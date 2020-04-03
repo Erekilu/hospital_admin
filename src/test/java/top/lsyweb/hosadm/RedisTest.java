@@ -46,19 +46,24 @@ public class RedisTest
 //		System.out.println(testArrays[0] + " " +  testArrays[1] + " " + testArrays[2]);
 //	}
 
+//	@Test
+//	public void departmentGet()
+//	{
+//		//		List<Department> departments = departmentService.queryDepartments();
+//		//		System.out.println(departments);
+//	}
+//
+//	@Test
+//	public void admin()
+//	{
+//		adminService.findAdminById(1);
+//		adminService.findAdminById(2);
+//		adminService.findAdminById(1);
+//	}
 	@Test
-	public void departmentGet()
+	public void test()
 	{
-		//		List<Department> departments = departmentService.queryDepartments();
-		//		System.out.println(departments);
-	}
 
-	@Test
-	public void admin()
-	{
-		adminService.findAdminById(1);
-		adminService.findAdminById(2);
-		adminService.findAdminById(1);
 	}
 
 }

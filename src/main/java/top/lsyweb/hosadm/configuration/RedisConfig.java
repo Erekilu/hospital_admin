@@ -12,7 +12,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @Date: 2020-03-31
  */
 @Configuration
-@PropertySource("classpath:application-dev.yml")
+@PropertySource("classpath:application-online.yml")
 public class RedisConfig {
 
 	@Value("${spring.redis.host}")
@@ -38,7 +38,7 @@ public class RedisConfig {
 
 	@Bean
 	public JedisPool jedisPoolFactory() {
-		System.out.println("JedisPool注入开始...");
+//		System.out.println("JedisPool注入开始...");
 		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
 		jedisPoolConfig.setMaxIdle(maxIdle);
 		jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
@@ -47,7 +47,7 @@ public class RedisConfig {
 		// 是否启用pool的jmx管理功能, 默认tru
 //		jedisPoolConfig.setJmxEnabled(JmxEnabled);
 		JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
-		System.out.println("JedisPool注入成功...");
+//		System.out.println("JedisPool注入成功...");
 		return jedisPool;
 	}
 }
