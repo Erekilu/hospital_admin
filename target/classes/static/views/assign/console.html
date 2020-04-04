@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>layuiAdmin 控制台主页一</title>
+    <title>控制台-主任</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -216,18 +216,6 @@
                     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
-            // dataZoom: [
-            //     {   // 这个dataZoom组件，默认控制x轴。
-            //         type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-            //         start: 0,      // 左边在 10% 的位置。
-            //         end: 30        // 右边在 60% 的位置。
-            //     },
-            //     {   // 这个dataZoom组件，也控制x轴。
-            //         type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-            //         start: 0,      // 左边在 10% 的位置。
-            //         end: 30         // 右边在 60% 的位置。
-            //     }
-            // ],
             xAxis: [
                 {
                     type: 'category',
@@ -287,9 +275,95 @@
             ]
         };
 
+        let option3 = {
+            grid: {
+                left: '15%',
+                right: '15%'
+            },
+            title: {
+                text: '今日不同时段录入人数与住院比例统计',
+                subtext: '数据仅供参考',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+                    type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00',
+                        '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00',
+                        '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'],
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    name: '录入人数(人)',
+                    type: 'value',
+                    splitLine:{show: false}
+                },
+                {
+                    name: '住院比例(%)',
+                    type: 'value',
+                    max: 100,
+                    axisLabel: {
+                        show: true,
+                        interval: 'auto',//居中显示
+                        formatter: '{value} %'//以百分比显示
+                    },
+                    // splitLine:{show: false}
+                }
+
+            ],
+            series: [
+                {
+                    name: '当天人数',
+                    type: 'bar',
+                    itemStyle: {
+                        color: new echarts.graphic.LinearGradient(
+                            0, 0, 0, 1,
+                            [
+                                {offset: 0, color: '#83bff6'},
+                                {offset: 0.5, color: '#188df0'},
+                                {offset: 1, color: '#188df0'}
+                            ]
+                        ),
+                        barBorderRadius: [30, 30, 0, 0],
+                    },
+                    barWidth: '50%',
+                    // barWidth: '50px',
+                    data: statistical.array
+                },
+                {
+                    name: '病人比例',
+                    type: 'line',
+                    yAxisIndex: 1,
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: '{c}%'
+                    },
+                    lineStyle: {
+                        color: '#fb6b1c',
+                        width: 4,
+                        shadowColor: 'rgba(0, 0, 0, 0.3)',//设置折线阴影
+                        shadowBlur: 15,
+                        shadowOffsetY: 20,
+                    },
+                    smooth: true,
+                    data: data
+                }
+            ]
+        };
+
 
         myChart1.setOption(option1);
-        myChart2.setOption(option2);
+        myChart2.setOption(option3);
     });
 </script>
 </body>

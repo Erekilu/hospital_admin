@@ -58,6 +58,7 @@ public class BedController
 		{
 			map.put("code", -1);
 			map.put("msg", e.getMessage());
+			return map;
 		}
 
 		// 添加日志记录
@@ -94,6 +95,7 @@ public class BedController
 		{
 			map.put("code", -1);
 			map.put("msg", e.getMessage());
+			return map;
 		}
 
 		// 添加日志记录

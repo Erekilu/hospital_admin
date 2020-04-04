@@ -19,4 +19,13 @@ public class Routing
 	{
 		return "/views/login.html";
 	}
+
+	/**
+	 * 网页图标路由
+	 * @return
+	 */
+	@GetMapping("/favicon.ico")
+	public String favicon() {
+		return "/images/icon.png";
+	}
 }

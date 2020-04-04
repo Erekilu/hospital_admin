@@ -194,7 +194,6 @@ public class AdminController
 			// 获取数据库中的密码
 			String realPassword = adminService.findAdminById(sessionAdmin.getAdminId().intValue()).getAdminPassword();
 			// 如果旧密码不对
-			System.out.println(oldPassword+ "  " + realPassword);
 			if (!realPassword.equals(oldPassword))
 			{
 				code = -1;

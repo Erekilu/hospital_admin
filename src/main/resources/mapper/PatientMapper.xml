@@ -90,8 +90,8 @@
 
 	<select id="queryPatientByTime_1" resultType="int">
 		select count(*) from patient where patient_belong = #{departmentId}
-									   and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
-									   and ((floor(to_days(now()) / 7) - #{week}) * 7 + #{day}) = to_days(patient_create_time)
+									   and (floor((to_days(now()) + 5) / 7) - floor((to_days(patient_create_time) + 5) / 7) = #{week})
+									   and ((floor((to_days(now()) + 5) / 7) - #{week}) * 7 + #{day}) = to_days(patient_create_time) + 5
 	</select>
 
 	<select id="queryPatientIfBed_1" resultType="int">
@@ -101,7 +101,7 @@
 
 	<select id="queryPatientInHos_1" resultType="int">
 		select count(*) from patient where patient_belong = #{departmentId}
-									   and (floor(to_days(now()) / 7) - floor(to_days(patient_create_time) / 7) = #{week})
+									   and (floor((to_days(now()) + 5) / 7) - floor((to_days(patient_create_time) + 5) / 7) = #{week})
 									   and patient_bed is not null
 	</select>
 </mapper>

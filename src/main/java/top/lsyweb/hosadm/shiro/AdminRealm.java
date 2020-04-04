@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import top.lsyweb.hosadm.domain.Admin;
 import top.lsyweb.hosadm.mapper.AdminMapper;
 
+import java.util.List;
+
 /**
  * @Auther: Erekilu
  * @Date: 2020-03-07
@@ -59,14 +61,15 @@ public class AdminRealm extends AuthorizingRealm
 		UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
 		// 获取查询出的admin对象
 		Admin admin = adminMapper.findAdminByUsername(token.getUsername());
-		if (admin != null)
-			System.out.println("用户 " + admin.getAdminName() + " 执行了认证操作");
 		// 用户名判断
 		if (admin == null)
 		{
 			// 用户名不存在
 			return null; // shiro遇到null抛出用户名不存在的异常
 		}
+		// 用户名存在
+		System.out.println("用户 " + admin.getAdminName() + " 执行了认证操作");
+
 		// 密码判断，并将用户实体放入shiro_session中
 		return new SimpleAuthenticationInfo(admin, admin.getAdminPassword(), "");
 	}

@@ -170,13 +170,13 @@ public class PatientServiceImpl implements PatientService
 			int temp2 = patientMapper.queryPatientByTime_1(departmentId, 1, i);
 			thisweek += temp1;
 			lastweek += temp2;
-			if (i == 0) map.put("six", temp1);
-			else if (i == 1) map.put("seven", temp1);
-			else if (i == 2) map.put("one", temp1);
-			else if (i == 3) map.put("two", temp1);
-			else if (i == 4) map.put("three", temp1);
-			else if (i == 5) map.put("four", temp1);
-			else map.put("five", temp1);
+			if (i == 0) map.put("one", temp1);
+			else if (i == 1) map.put("two", temp1);
+			else if (i == 2) map.put("three", temp1);
+			else if (i == 3) map.put("four", temp1);
+			else if (i == 4) map.put("five", temp1);
+			else if (i == 5) map.put("six", temp1);
+			else map.put("seven", temp1);
 		}
 		map.put("thisweek", thisweek);
 		map.put("lastweek", lastweek);

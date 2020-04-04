@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>layuiAdmin 主页示例模板二</title>
+    <title>数据统计-主任</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -159,7 +159,7 @@
                 right: '15%'
             },
             title: {
-                text: '七日内每天录入和住院的病人数量',
+                text: '七日内每天录入病人数和和病人比例',
                 subtext: '数据仅供参考',
                 left: 'center'
             },
@@ -169,18 +169,6 @@
                     type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
                 }
             },
-            // dataZoom: [
-            //     {   // 这个dataZoom组件，默认控制x轴。
-            //         type: 'slider', // 这个 dataZoom 组件是 slider 型 dataZoom 组件
-            //         start: 0,      // 左边在 10% 的位置。
-            //         end: 30        // 右边在 60% 的位置。
-            //     },
-            //     {   // 这个dataZoom组件，也控制x轴。
-            //         type: 'inside', // 这个 dataZoom 组件是 inside 型 dataZoom 组件
-            //         start: 0,      // 左边在 10% 的位置。
-            //         end: 30         // 右边在 60% 的位置。
-            //     }
-            // ],
             xAxis: [
                 {
                     type: 'category',
@@ -193,10 +181,11 @@
             yAxis: [
                 {
                     name: '病人数量(周)',
-                    type: 'value'
+                    type: 'value',
+                    splitLine:{show: false}
                 },
                 {
-                    name: '住院比例(%)',
+                    name: '病人比例(%)',
                     type: 'value',
                     max: 100,
                     axisLabel: {
@@ -204,6 +193,7 @@
                         interval: 'auto',//居中显示
                         formatter: '{value} %'//以百分比显示
                     },
+                    // splitLine:{show: false}
                 }
 
             ],
@@ -219,23 +209,29 @@
                                 {offset: 0.5, color: '#188df0'},
                                 {offset: 1, color: '#188df0'}
                             ]
-                        )
+                        ),
+                        barBorderRadius: [30, 30, 0, 0],
                     },
                     barWidth: '50%',
+                    // barWidth: '50px',
                     data: [statistical.one, statistical.two, statistical.three, statistical.four, statistical.five, statistical.six, statistical.seven]
                 },
                 {
-                    name: '住院比例',
+                    name: '病人比例',
                     type: 'line',
                     yAxisIndex: 1,
                     tooltip: {
                         trigger: 'axis',
                         formatter: '{c}%'
                     },
-                    // data: [Math.floor(statistical.one / all * 100) / 100, Math.floor(statistical.two / all * 100) / 100,
-                    //     Math.floor(statistical.three / all * 100) / 100, Math.floor(statistical.four / all * 100) / 100,
-                    //     Math.floor(statistical.five / all * 100) / 100, Math.floor(statistical.six / all * 100) / 100,
-                    //     Math.floor(statistical.seven / all * 100) / 100]
+                    lineStyle: {
+                        color: '#fb6b1c',
+                        width: 4,
+                        shadowColor: 'rgba(0, 0, 0, 0.3)',//设置折线阴影
+                        shadowBlur: 15,
+                        shadowOffsetY: 20,
+                    },
+                    smooth: true,
                     data: [Math.floor(statistical.one * 1.0 / all * 100),
                         Math.floor(statistical.two * 1.0 / all * 100),
                         Math.floor(statistical.three * 1.0 / all * 100),

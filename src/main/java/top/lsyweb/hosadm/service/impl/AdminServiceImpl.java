@@ -49,9 +49,11 @@ public class AdminServiceImpl implements AdminService
 			admin = adminMapper.findAdminById(id);
 			// 将admin写入redis
 			maintainCache(admin, "admin_" + id);
+			System.out.println("将admin_" + id + "写入redis");
 		} else {
 			// 获取redis中的用户对象
 			String jsonString = redisUtil.get("admin_" + id);
+			System.out.println("从redis中获取admin_" + id);
 			try
 			{
 				// 将获取的json转换成Admin对象
@@ -79,6 +81,7 @@ public class AdminServiceImpl implements AdminService
 		Admin result = adminMapper.findAdminById(admin.getAdminId().intValue());
 		// 将更新后的用户数据同步到redis
 		maintainCache(result, "admin_" + result.getAdminId());
+		System.out.println("将admin_" + result.getAdminId() + "写入redis");
 		return result;
 	}
 
@@ -124,6 +127,7 @@ public class AdminServiceImpl implements AdminService
 		Admin result = adminMapper.findAdminById(admin.getAdminId().intValue());
 		// 将更新后的用户数据同步到redis
 		maintainCache(result, "admin_" + result.getAdminId());
+		System.out.println("将admin_" + result.getAdminId() + "写入redis");
 		return result;
 	}
 
